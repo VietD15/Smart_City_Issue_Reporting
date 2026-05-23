@@ -200,13 +200,20 @@ export const loginWithGoogleService = async (idToken: string): Promise<ServiceRe
         throw new Error("Google login user creation failed");
     }
 
-    const roleIds = await userRepo.GetRoleIDsByUserID(user._id.toString());
+    let roleIds = await userRepo.GetRoleIDsByUserID(user._id.toString());
 
     if (!roleIds.length) {
-        return {
-            success: false,
-            message: "User role not found"
-        };
+        console.log(`[Google Login] User ${user.email} has no roles assigned. Auto-assigning default user role...`);
+        const userRole = await roleSchema.findOne({ name: ROLES.USERROLE });
+        if (userRole) {
+            await userRepo.AddNewRolesToNewUser(user._id.toString(), userRole.role_id);
+            roleIds = [userRole.role_id];
+        } else {
+            return {
+                success: false,
+                message: "User role not found"
+            };
+        }
     }
 
     const { accessToken, refreshToken } = generateTokens(user._id.toString(), roleIds);

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kịch bản Demo BáoCáoVN - Đề tài 118</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.8;
+            padding: 2rem
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, .4);
+            border: 1px solid #334155
+        }
+
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #fb923c, #f97316, #ea580c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #334155
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #fb923c;
+            margin: 2.5rem 0 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #334155
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            color: #ffedd5;
+            margin: 1.75rem 0 0.75rem
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #cbd5e1
+        }
+
+        ul,
+        ol {
+            margin: 0.5rem 0 1rem 1.5rem;
+            color: #cbd5e1
+        }
+
+        li {
+            margin-bottom: 0.4rem
+        }
+
+        strong {
+            color: #f1f5f9
+        }
+
+        code {
+            background: #334155;
+            color: #ffedd5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em
+        }
+
+        pre {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1rem 0
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #ffedd5
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.92em
+        }
+
+        th {
+            background: #334155;
+            color: #fb923c;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #475569
+        }
+
+        td {
+            padding: 10px 14px;
+            border: 1px solid #334155;
+            color: #cbd5e1
+        }
+
+        tr:nth-child(even) {
+            background: #1e293b
+        }
+
+        tr:hover {
+            background: #273549
+        }
+
+        blockquote {
+            border-left: 4px solid #f97316;
+            background: #24201c;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            color: #ffedd5;
+            font-style: italic
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #475569, transparent);
+            margin: 2rem 0
+        }
+
+        a {
+            color: #fb923c;
+            text-decoration: none
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="content"></div>
+    <script>
+        const md = `# 🎬 KỊCH BẢN DEMO BẢO VỆ KHÓA LUẬN TỐT NGHIỆP
+## ĐỀ TÀI: HỆ THỐNG BÁO CÁO VẤN ĐỀ DÂN SINH BÁOCÁOVN (MÃ ĐỀ TÀI: 118)
+
+Kịch bản này được thiết kế theo một **luồng câu chuyện thực tế (Storytelling)** đi qua 3 vai trò: **Người dân $\\rightarrow$ Cán bộ $\\rightarrow$ Admin** nhằm phô diễn tối đa các điểm "WOW" (AI, Bản đồ, Phân quyền) trong 5-7 phút.
+
+---
+
+## 🎭 VAI TRÒ 1: NGƯỜI DÂN (Gửi báo cáo & Trải nghiệm AI)
+
+### Bước 1: Giới thiệu giao diện Trang chủ công cộng
+*   **Hành động:** Mở Trang chủ BáoCáoVN. Di chuột lên bản đồ nhiệt hiển thị các điểm phản ánh sự cố đô thị.
+*   **Lời thoại thuyết trình:** *"Kính thưa Hội đồng, đây là giao diện trang chủ công cộng dành cho người dân. Bản đồ trực quan này giúp người dân thấy ngay các điểm nóng sự cố xung quanh mình, thể hiện tính công khai và minh bạch của hệ thống."*
+
+### Bước 2: Gửi một báo cáo sự cố thực tế
+*   **Hành động:** 
+    1. Click nút **"Gửi Báo Cáo"**.
+    2. Tải lên một hình ảnh sự cố (ví dụ: ảnh đống rác ngập ngụa hoặc ổ gà).
+    3. Nhập mô tả: *"Rác thải vứt bừa bãi gây mùi hôi thối cản trở giao thông."*
+*   **Điểm nhấn WOW (AI Quét ảnh hiện trường):**
+    *   **Hành động:** Chỉ vào dòng thông báo AI đang phân tích.
+    *   **Lời thoại thuyết trình:** *"Ngay khi hình ảnh được tải lên, hệ thống sẽ kích hoạt **AI kiểm duyệt đa phương thức**. AI sẽ phân tích xem ảnh có phải là hiện trường giả mạo hoặc ảnh mạng không, tự động phân loại danh mục \`garbage\` (rác thải) và chấm điểm mức độ nghiêm trọng mà người dân không cần thao tác thủ công."*
+
+### Bước 3: Xác định vị trí địa lý thông minh
+*   **Hành động:**
+    1. Bấm nút **"Sử dụng vị trí hiện tại"** (GPS).
+    2. Hoặc click một điểm trên bản đồ Leaflet.
+*   **Điểm nhấn WOW (Định vị & Geocoding):**
+    *   **Lời thoại thuyết trình:** *"Để tối ưu hóa trải nghiệm, người dân chỉ cần chọn vị trí trên bản đồ, hệ thống sẽ tự động gọi API địa lý để tự điền các cấp hành chính như Phường, Quận, Thành phố, đảm bảo dữ liệu luôn chính xác khi gửi lên chính quyền."*
+    *   **Hành động:** Nhấp **"Gửi báo cáo"** và nhận thông báo thành công.
+
+---
+
+## 🤖 VAI TRÒ 2: TƯƠNG TÁC CHATBOT AI (Tư vấn dịch vụ công)
+
+*   **Hành động:** 
+    1. Bấm vào bong bóng chat ở góc màn hình để mở **Chatbot AI**.
+    2. Gõ câu hỏi: *"Karaoke ồn ào sau 22h đêm bị phạt bao nhiêu?"* hoặc *"Tôi muốn báo cáo nắp cống hỏng thì làm thế nào?"*.
+*   **Điểm nhấn WOW (Chatbot NLP thông minh):**
+    *   **Lời thoại thuyết trình:** *"Hệ thống tích hợp trợ lý ảo Chatbot AI xử lý ngôn ngữ tự nhiên (NLP). Chatbot có thể tra cứu thông tin báo cáo của người dân qua mã, đồng thời tư vấn nhanh chóng các quy định luật pháp dân sinh, giúp giảm tải tối đa cho bộ phận tổng đài giải đáp dịch vụ công."*
+
+---
+
+## 👮 VAI TRÒ 3: CÁN BỘ CHUYÊN MÔN (Lọc theo Lĩnh vực & Xử lý)
+
+### Bước 1: Đăng nhập Cán bộ chuyên trách
+*   **Hành động:** Đăng nhập bằng tài khoản Cán bộ (Ví dụ email: \`ndviet1501.02@gmail.com\`).
+*   **Điểm nhấn WOW (Phân quyền xử lý chuyên môn):**
+    *   **Lời thoại thuyết trình:** *"Bây giờ, chúng ta sẽ chuyển sang vai trò Cán bộ chuyên trách. Điểm đặc biệt là cán bộ này chỉ nhìn thấy đúng các báo cáo thuộc lĩnh vực ngập lụt (\`flood\`) hoặc rác thải (\`garbage\`) mà Admin đã phân quyền quản lý (\`managementScope\`), tránh tình trạng báo cáo bị chồng chéo hoặc phân phối sai hòm thư."*
+
+### Bước 2: Xử lý báo cáo
+*   **Hành động:**
+    1. Tìm báo cáo Rác thải vừa gửi ở Vai trò 1.
+    2. Bấm nút **"Tiếp nhận"** $\\rightarrow$ Chuyển trạng thái sang **"Đang xử lý"**.
+    3. Bấm **"Hoàn thành"** $\\rightarrow$ Tải lên 1 hình ảnh minh chứng hiện trường sạch sẽ sau khi dọn dẹp $\\rightarrow$ Lưu lại.
+*   **Lời thoại thuyết trình:** *"Toàn bộ lịch sử xử lý, từ người tiếp nhận, ghi chú xử lý đến hình ảnh minh chứng sau sửa chữa đều được cập nhật theo thời gian thực (Realtime Timeline) để người dân giám sát tối đa."*
+
+---
+
+## 👑 VAI TRÒ 4: QUẢN TRỊ VIÊN (Admin - Dashboard vĩ mô)
+
+### Bước 1: Đăng nhập tài khoản Admin
+*   **Hành động:** Đăng nhập tài khoản \`admin_root\` / \`admin123456\`. Vào trang **Dashboard Thống kê / Quản lý**.
+
+### Bước 2: Trình diễn Dashboard Thống kê và Quản trị
+*   **Hành động:** Chỉ vào các biểu đồ tròn, biểu đồ cột thống kê số lượng báo cáo theo Quận, Trạng thái, và Lĩnh vực.
+*   **Lời thoại thuyết trình:** *"Đây là bảng điều khiển vĩ mô dành cho Admin. Hệ thống cung cấp các số liệu thống kê trực quan bằng biểu đồ về hiệu suất xử lý sự cố của từng phường, từng cán bộ và mật độ sự cố theo không gian. Giúp lãnh đạo thành phố có cái nhìn tổng quan để đưa ra các quyết định quy hoạch đô thị chính xác."*
+
+### Bước 3: Trình diễn Quản lý Người dùng & Phân quyền (RBAC)
+*   **Hành động:** Mở tab Quản lý tài khoản, bấm Edit tài khoản cán bộ để chỉ cho Hội đồng thấy mảng **Lĩnh vực phụ trách (managementScope)**.
+*   **Lời thoại thuyết trình:** *"Tại đây, Admin có thể dễ dàng phân quyền (Role-Based Access Control) và chỉ định địa giới hành chính cũng như lĩnh vực chuyên môn cụ thể cho từng cán bộ, đảm bảo tính bảo mật và vận hành khoa học của bộ máy hành chính công."*
+
+---
+## 🌟 LỜI KẾT THUYẾT TRÌNH
+*"Kính thưa Hội đồng, qua luồng demo vừa rồi, nhóm đã chứng minh **BáoCáoVN** không chỉ là một trang web CRUD thông thường, mà là một **giải pháp số đô thị thông minh toàn diện**, áp dụng AI một cách thực tế để giải quyết bài toán dân sinh và nâng cao hiệu quả quản trị công. Nhóm xin chân thành cảm ơn Hội đồng đã lắng nghe!"*
+`;
+
+        const renderer = new marked.Renderer();
+        renderer.code = function ({ text, lang }) {
+            if (lang === 'mermaid') {
+                return '<div class="mermaid">' + text + '</div>';
+            }
+            return '<pre><code>' + text + '</code></pre>';
+        };
+        marked.setOptions({ renderer });
+        document.getElementById('content').innerHTML = marked.parse(md);
+    </script>
+</body>
+
+</html>

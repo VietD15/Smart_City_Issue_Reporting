@@ -966,7 +966,7 @@ export function ModeratorIssuesPage() {
   }, [refreshIssues]);
 
   const visibleIssues = useMemo(() => {
-    if (user && user.role === "moderator") {
+    if (user && (user.role === "moderator" || user.role === "cán bộ" || user.role === "Cán bộ")) {
       const scope = user.managementScope || [];
       return issues.filter((i) => scope.includes(i.category));
     }
