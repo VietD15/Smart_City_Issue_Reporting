@@ -63,7 +63,7 @@ export const sendOtp = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message: `Mã OTP đã được gửi đến ${email}`,
-      code,
+      ...(process.env.NODE_ENV !== "production" ? { code } : {}),
     });
   } catch (error) {
     console.error("sendOtp error:", error);

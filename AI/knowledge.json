@@ -1,5 +1,32 @@
 [
   {
+    "hash": "03ff00ff00ff01bc013b203d27dd07fd03f803fc03fe00ff00ff01ff01fc07f8",
+    "result": {
+      "is_valid": true,
+      "label": "Ngập lụt",
+      "category": "flood",
+      "confidence": 78
+    }
+  },
+  {
+    "hash": "f01f201401fcff3efe3fe7e16003004ff844f1b4f47970a137e18ee0c174d5e1",
+    "result": {
+      "is_valid": true,
+      "label": "Rác thải",
+      "category": "trash",
+      "confidence": 24
+    }
+  },
+  {
+    "hash": "33e03b203ff01ff01ff03fb031f8317006462dbcbe881bbe1b7e1d7c3d740858",
+    "result": {
+      "is_valid": true,
+      "label": "Rác thải",
+      "category": "trash",
+      "confidence": 31
+    }
+  },
+  {
     "hash": "47c0ffc07fc06f805fc0bfd033f801f002f809c0ede0ff753f013f000ff00ffe",
     "result": {
       "is_valid": true,

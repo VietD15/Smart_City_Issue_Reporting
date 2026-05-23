@@ -187,7 +187,11 @@ export function AuthModal({ open, onClose, defaultTab = "login" }: AuthModalProp
     if (res.success) {
       setRegStep(2);
       setResendTimer(60); // Khởi động bộ đếm
-      toast.success(`Mã xác thực đã được gửi đến ${regData.email}. Mã của bạn là: ${res.code}`);
+      if (res.code) {
+        toast.success(`Mã xác thực đã được gửi đến ${regData.email}. Mã của bạn là: ${res.code}`);
+      } else {
+        toast.success(`Mã xác thực đã được gửi đến ${regData.email}. Vui lòng kiểm tra hộp thư đến hoặc thư rác (Spam).`);
+      }
       if (process.env.NODE_ENV !== "production") {
         toast.info("Đang chạy ở môi trường local, mã OTP mặc định là: 123456", { duration: 8000 });
       }
@@ -243,7 +247,11 @@ export function AuthModal({ open, onClose, defaultTab = "login" }: AuthModalProp
       setGeneratedCode(res.code || "");
       setForgotStep(2);
       setResendTimer(60); // Khởi động bộ đếm
-      toast.success(`Mã xác thực đã được gửi đến ${forgotData.email}. Mã của bạn là: ${res.code}`);
+      if (res.code) {
+        toast.success(`Mã xác thực đã được gửi đến ${forgotData.email}. Mã của bạn là: ${res.code}`);
+      } else {
+        toast.success(`Mã xác thực đã được gửi đến ${forgotData.email}. Vui lòng kiểm tra hộp thư đến hoặc thư rác (Spam).`);
+      }
     } else {
       setForgotErrors({ general: res.error || "Gửi mã thất bại" });
     }

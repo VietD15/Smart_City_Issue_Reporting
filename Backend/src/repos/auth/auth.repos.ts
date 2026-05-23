@@ -142,7 +142,21 @@ export const loginWithGoogleService = async (idToken: string): Promise<ServiceRe
     }
 
     const email = payload.email.toLowerCase();
-    const userName = payload.name || email.split("@")[0];
+    
+    // Tạo userName sạch từ phần trước dấu @ của email (bỏ các ký tự đặc biệt như dấu chấm)
+    let userName = email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "");
+    if (!userName) {
+        userName = "user";
+    }
+    
+    // Kiểm tra xem userName này đã tồn tại chưa
+    const existingUserName = await authModel.findOne({ userName });
+    if (existingUserName) {
+        // Nếu đã tồn tại, tự động thêm 4 ký tự ngẫu nhiên để tránh lỗi Duplicate Key
+        userName = `${userName}${crypto.randomBytes(2).toString("hex")}`;
+    }
+
+    const displayName = payload.name || email.split("@")[0];
 
     let user = await authModel.findOne({ email });
 
@@ -155,6 +169,7 @@ export const loginWithGoogleService = async (idToken: string): Promise<ServiceRe
 
                 const [newUser] = await authModel.create([{
                     userName,
+                    name: displayName,
                     email,
                     password: hashedPassword,
                     types: "login-google"
