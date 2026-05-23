@@ -130,9 +130,14 @@ export function AdminManagementPage() {
   }
 
   const visibleIssues = issues.filter((i) => {
-    if (user && user.role === "moderator") {
+    if (user && (user.role === "moderator" || user.role === "cán bộ" || user.role === "Cán bộ")) {
       const scope = user.managementScope || [];
-      return scope.includes(i.category);
+      const matchesScope = scope.includes(i.category);
+      if (!matchesScope) return false;
+      if (user.city) {
+        return i.city && i.city.toLowerCase().trim() === user.city.toLowerCase().trim();
+      }
+      return true;
     }
     return true;
   });

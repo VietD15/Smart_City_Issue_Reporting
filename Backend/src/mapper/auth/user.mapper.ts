@@ -5,6 +5,7 @@ export class UserMapper {
             return {
                 user_id: user._id,
                 username: user.userName,
+                name: user.name,
                 email: user.email,
                 avatar: user.avatar,
                 phone: user.phone,
@@ -23,6 +24,7 @@ export class UserMapper {
             return {
                 user_id: user._id,
                 username: user.userName,
+                name: user.name,
                 email: user.email,
                 avatar: user.avatar,
                 phone: user.phone,

@@ -968,7 +968,12 @@ export function ModeratorIssuesPage() {
   const visibleIssues = useMemo(() => {
     if (user && (user.role === "moderator" || user.role === "cán bộ" || user.role === "Cán bộ")) {
       const scope = user.managementScope || [];
-      return issues.filter((i) => scope.includes(i.category));
+      let list = issues.filter((i) => scope.includes(i.category));
+      if (user.city) {
+        const userCityNorm = user.city.toLowerCase().trim();
+        list = list.filter((i) => i.city && i.city.toLowerCase().trim() === userCityNorm);
+      }
+      return list;
     }
     return issues;
   }, [issues, user]);

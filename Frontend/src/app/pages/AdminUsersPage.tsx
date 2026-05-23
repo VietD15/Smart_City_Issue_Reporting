@@ -49,15 +49,15 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "h
 
 async function fetchUsersFromAPI(): Promise<Array<User & { password: string }>> {
   try {
-    const data = await api.get("/auth/users");
+    const data = await api.get("/auth/users?limit=500");
     if (data.success && data.users) {
       return data.users.map((u: any) => ({
         id: u.user_id || u._id || u.id,
-        name: u.username || u.userName || u.name,
+        name: u.name || u.userName || u.username || "Người dùng",
         email: u.email,
         phone: u.phone,
         city: u.city,
-        avatar: u.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(u.username || u.userName || u.name || 'user')}`,
+        avatar: u.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(u.name || u.username || u.userName || 'user')}`,
         joinedAt: u.created_at || u.createdAt || new Date().toISOString(),
         reportsCount: u.reportsCount || 0,
         resolvedCount: u.resolvedCount || 0,
@@ -179,12 +179,12 @@ function CreateAccountModal({
       const userData = data.user || data;
       const newUser: User & { password: string } = {
         id: userData.user_id || userData._id || userData.id || Math.random().toString(36).substr(2, 9),
-        name: userData.userName || form.name.trim(),
+        name: userData.name || userData.fullName || userData.userName || form.name.trim(),
         email: userData.email || form.email.trim().toLowerCase(),
         password: "",
         phone: form.phone.trim() || undefined,
         city: form.city,
-        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(form.name)}`,
+        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userData.name || form.name)}`,
         joinedAt: userData.createdAt || new Date().toISOString(),
         reportsCount: 0,
         resolvedCount: 0,
@@ -1139,17 +1139,27 @@ export function AdminUsersPage() {
   const [editPasswordTarget, setEditPasswordTarget] = useState<(User & { password: string }) | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<(User & { password: string }) | null>(null);
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const loadUsers = async () => {
+    setIsLoadingUsers(true);
+    const apiUsers = await fetchUsersFromAPI();
+    if (apiUsers.length > 0) {
+      setUsers(apiUsers);
+    }
+    setIsLoadingUsers(false);
+  };
+
   useEffect(() => {
-    const loadUsers = async () => {
-      setIsLoadingUsers(true);
-      const apiUsers = await fetchUsersFromAPI();
-      if (apiUsers.length > 0) {
-        setUsers(apiUsers);
-      }
-      setIsLoadingUsers(false);
-    };
     loadUsers();
   }, []);
+
+  // Reset page when search or filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, filterRole, filterStatus]);
 
   // ── Filter ──
   const filtered = useMemo(() => {
@@ -1164,9 +1174,15 @@ export function AdminUsersPage() {
     });
   }, [users, search, filterRole, filterStatus, user]);
 
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const paginatedUsers = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filtered.slice(startIndex, startIndex + itemsPerPage);
+  }, [filtered, currentPage, itemsPerPage]);
+
 
   // ── Helpers ──
-  const updateUser = async (userId: string, updates: Partial<User>) => {
+  const updateUser = async (userId: string, updates: Partial<User & { password?: string; roleIds?: string[] }>) => {
     // Update UI first (optimistic)
     const updated = users.map((u) => u.id === userId ? { ...u, ...updates } : u);
     setUsers(updated);
@@ -1189,11 +1205,11 @@ export function AdminUsersPage() {
         if (u) {
           const mappedUser = {
             id: u.user_id || u._id || u.id,
-            name: u.username || u.userName || u.name,
+            name: u.name || u.userName || u.username || "Người dùng",
             email: u.email,
             phone: u.phone,
             city: u.city,
-            avatar: u.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(u.username || u.userName || u.name || 'user')}`,
+            avatar: u.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(u.name || u.username || u.userName || 'user')}`,
             joinedAt: u.created_at || u.createdAt || new Date().toISOString(),
             reportsCount: u.reportsCount || 0,
             resolvedCount: u.resolvedCount || 0,
@@ -1432,7 +1448,7 @@ export function AdminUsersPage() {
             {search && <span> · tìm kiếm "<strong>{search}</strong>"</span>}
           </p>
           <button
-            onClick={() => setUsers(getUsers())}
+            onClick={loadUsers}
             className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-indigo-600 transition-colors"
           >
             <RefreshCw size={12} /> Làm mới
@@ -1473,8 +1489,9 @@ export function AdminUsersPage() {
             </button>
           </motion.div>
         ) : (
-          <div className="space-y-3">
-            {filtered.map((u, i) => {
+          <>
+            <div className="space-y-3">
+            {paginatedUsers.map((u, i) => {
               const cfg = ROLE_CONFIG[u.role as keyof typeof ROLE_CONFIG] || ROLE_CONFIG.user;
               const RoleIcon = cfg.icon;
               return (
@@ -1626,8 +1643,65 @@ export function AdminUsersPage() {
               );
             })}
           </div>
-        )}
-      </div>
+
+          {/* ── Pagination Controls ── */}
+          {totalPages > 1 && (
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
+              <div className="text-sm text-gray-500">
+                Hiển thị <span className="font-semibold text-gray-800">{Math.min((currentPage - 1) * itemsPerPage + 1, filtered.length)}</span> - <span className="font-semibold text-gray-800">{Math.min(currentPage * itemsPerPage, filtered.length)}</span> trong tổng số <span className="font-semibold text-gray-800">{filtered.length}</span> người dùng
+              </div>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {/* Previous Page Button */}
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  className="px-3 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  Trở trước
+                </button>
+                
+                {/* Numbered Page Buttons (intelligently limited) */}
+                {Array.from({ length: totalPages }).map((_, idx) => {
+                  const pNum = idx + 1;
+                  // Only show current page, first, last, and 1 page before/after
+                  if (totalPages > 5 && pNum !== 1 && pNum !== totalPages && Math.abs(currentPage - pNum) > 1) {
+                    if (pNum === 2 && currentPage > 3) {
+                      return <span key="dots-start" className="px-1 text-gray-400 text-xs select-none">...</span>;
+                    }
+                    if (pNum === totalPages - 1 && currentPage < totalPages - 2) {
+                      return <span key="dots-end" className="px-1 text-gray-400 text-xs select-none">...</span>;
+                    }
+                    return null;
+                  }
+                  return (
+                    <button
+                      key={pNum}
+                      onClick={() => setCurrentPage(pNum)}
+                      className={`w-8 h-8 rounded-xl text-xs font-bold transition-all flex items-center justify-center ${
+                        currentPage === pNum
+                          ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
+                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      }`}
+                    >
+                      {pNum}
+                    </button>
+                  );
+                })}
+                
+                {/* Next Page Button */}
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  className="px-3 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  Tiếp theo
+                </button>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    </div>
 
       {/* ── Modals ── */}
       <AnimatePresence>
